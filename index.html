@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS STORE — Your Gaming Destination™</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #07080f;
+  --bg2:      #0d0f1c;
+  --bg3:      #111427;
+  --accent:   #00f5c4;
+  --accent2:  #ff3c6e;
+  --accent3:  #f5c400;
+  --dim:      #1e2240;
+  --text:     #c8d0e8;
+  --text2:    #6a7490;
+  --border:   rgba(0,245,196,0.15);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 16px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* scanline overlay */
+body::before {
+  content:'';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ===== TOPBAR ===== */
+#topbar {
+  background: rgba(7,8,15,0.95);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+}
+
+#logo {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: var(--accent);
+  text-shadow: 0 0 20px var(--accent);
+  letter-spacing: 3px;
+  white-space: nowrap;
+}
+
+nav { display: flex; gap: 0; flex: 1; }
+
+.nav-tab {
+  padding: 0 1.4rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text2);
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  user-select: none;
+  white-space: nowrap;
+}
+.nav-tab:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.btn-small {
+  padding: 6px 16px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border: none;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.2s;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #000;
+}
+.btn-primary:hover { box-shadow: 0 0 20px var(--accent); }
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+.btn-outline:hover { background: rgba(0,245,196,0.1); }
+
+.cart-badge {
+  position: relative;
+  cursor: pointer;
+  font-size: 1.3rem;
+}
+.cart-count {
+  position: absolute;
+  top: -6px; right: -8px;
+  background: var(--accent2);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  border-radius: 50%;
+  width: 16px; height: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ===== PAGES ===== */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ===== HERO ===== */
+#hero {
+  position: relative;
+  height: 520px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: 3rem;
+}
+
+#hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 60% 40%, rgba(0,245,196,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(255,60,110,0.10) 0%, transparent 50%),
+    linear-gradient(135deg, #070a1a 0%, #0d1030 50%, #070812 100%);
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,245,196,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,245,196,0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridscroll 20s linear infinite;
+}
+@keyframes gridscroll {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 60px; }
+}
+
+#hero-content { position: relative; z-index: 1; }
+#hero h1 {
+  font-family: 'Orbitron', monospace;
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(0,245,196,0.5);
+}
+#hero h1 span { color: var(--accent); }
+#hero p {
+  font-size: 1.1rem;
+  color: var(--text2);
+  margin: 1rem 0 1.5rem;
+  max-width: 500px;
+}
+
+.btn-big {
+  padding: 14px 36px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  background: var(--accent);
+  color: #000;
+  transition: all 0.2s;
+}
+.btn-big:hover { box-shadow: 0 0 30px var(--accent); transform: translateY(-2px); }
+
+/* ===== SECTION ===== */
+.section {
+  padding: 3rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.section-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ===== GAME GRID ===== */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.game-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+}
+.game-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,245,196,0.15);
+}
+.game-card.locked { cursor: default; }
+.game-card.locked:hover {
+  border-color: var(--border);
+  transform: none;
+  box-shadow: none;
+}
+
+.card-img {
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.card-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, var(--bg2));
+}
+
+.lock-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  backdrop-filter: blur(3px);
+  z-index: 1;
+}
+
+.card-body { padding: 1rem; }
+.card-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.3rem;
+}
+.card-genre {
+  font-size: 0.75rem;
+  color: var(--text2);
+  margin-bottom: 0.6rem;
+  font-family: 'Share Tech Mono', monospace;
+}
+.card-price {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.price-old {
+  font-size: 0.8rem;
+  color: var(--text2);
+  text-decoration: line-through;
+}
+.price-new {
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent3);
+}
+.badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--accent2);
+  color: #fff;
+  margin-left: auto;
+}
+.badge.new-badge { background: var(--accent); color: #000; }
+.badge.locked-badge { background: #333; color: #888; }
+
+/* ===== GAME PAGE ===== */
+#game-page { display: none; }
+#game-page.active { display: block; }
+
+.game-hero {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 3rem 2rem;
+  display: flex;
+  gap: 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.game-cover {
+  flex-shrink: 0;
+  width: 300px;
+  height: 180px;
+  background: var(--dim);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  border: 1px solid var(--border);
+}
+
+.game-info { flex: 1; }
+.game-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+.game-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.meta-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text2);
+  border: 1px solid var(--dim);
+  padding: 3px 10px;
+  border-radius: 3px;
+}
+.game-desc {
+  color: var(--text);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  max-width: 600px;
+  font-size: 0.95rem;
+}
+.game-price-box {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.big-price {
+  font-family: 'Orbitron', monospace;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--accent3);
+}
+.old-price {
+  font-size: 1rem;
+  color: var(--text2);
+  text-decoration: line-through;
+}
+
+/* ===== BUY FLOW ===== */
+#buy-flow {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+.flow-step {
+  display: none;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 1rem;
+}
+.flow-step.active { display: block; }
+
+.step-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.step-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #000;
+  font-weight: 900;
+  font-size: 0.8rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.btn-flow {
+  padding: 12px 28px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  background: var(--accent);
+  color: #000;
+  margin-top: 1rem;
+  transition: all 0.2s;
+}
+.btn-flow:hover { box-shadow: 0 0 20px var(--accent); }
+.btn-flow.danger { background: var(--accent2); color: #fff; }
+.btn-flow.grey { background: var(--dim); color: var(--text2); }
+
+/* progress bar */
+.dl-bar-wrap {
+  background: #111;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 28px;
+  margin: 1rem 0;
+  position: relative;
+}
+.dl-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), #00aaff);
+  border-radius: 20px;
+  transition: width 0.3s;
+}
+.dl-bar-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.8rem;
+  color: #fff;
+  font-weight: 700;
+}
+
+/* captcha */
+.captcha-box {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg);
+}
+.captcha-box input[type=checkbox] { width: 20px; height: 20px; cursor: pointer; }
+
+/* 2FA */
+.code-inputs {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+.code-inputs input {
+  width: 50px;
+  height: 60px;
+  text-align: center;
+  font-family: 'Orbitron', monospace;
+  font-size: 1.4rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  border-radius: 4px;
+}
+.code-inputs input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px rgba(0,245,196,0.3); }
+
+/* runner */
+#catch-area {
+  position: relative;
+  height: 180px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+#catch-btn {
+  position: absolute;
+  padding: 10px 20px;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: var(--accent2);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  transition: top 0.1s, left 0.1s;
+  white-space: nowrap;
+}
+
+/* patch list */
+.patch-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+.patch-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.8rem 1rem;
+}
+.patch-bar-wrap {
+  flex: 1;
+  background: #111;
+  border-radius: 10px;
+  height: 8px;
+  overflow: hidden;
+}
+.patch-bar {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 10px;
+  width: 0%;
+  transition: width 0.4s;
+}
+.patch-name {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text2);
+  white-space: nowrap;
+  width: 180px;
+}
+.patch-status {
+  font-size: 0.75rem;
+  font-family: 'Share Tech Mono', monospace;
+  width: 60px;
+  text-align: right;
+}
+
+/* TOS */
+.tos-box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem;
+  height: 200px;
+  overflow-y: scroll;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text2);
+  line-height: 1.8;
+  margin: 1rem 0;
+}
+.tos-box::-webkit-scrollbar { width: 4px; }
+.tos-box::-webkit-scrollbar-track { background: var(--bg); }
+.tos-box::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+/* reviews */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.review-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.2rem;
+}
+.review-stars { color: var(--accent3); font-size: 0.9rem; margin-bottom: 0.5rem; }
+.review-text { font-style: italic; color: var(--text); font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.8rem; }
+.review-author { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: var(--text2); }
+
+/* sysreq table */
+.req-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+.req-table th {
+  background: var(--dim);
+  padding: 0.7rem 1rem;
+  text-align: left;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+.req-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text);
+}
+.req-table tr:hover td { background: rgba(0,245,196,0.03); }
+
+/* DLC grid */
+.dlc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.dlc-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+}
+.dlc-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.dlc-name { font-family: 'Orbitron', monospace; font-size: 0.75rem; color: #fff; margin-bottom: 0.3rem; }
+.dlc-desc { font-size: 0.78rem; color: var(--text2); margin-bottom: 0.8rem; line-height: 1.5; }
+.dlc-price { font-family: 'Orbitron', monospace; color: var(--accent3); font-size: 0.9rem; }
+
+/* FOOTER */
+footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  text-align: center;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text2);
+  line-height: 2;
+  margin-top: 4rem;
+}
+
+/* NOTIFICATION */
+#notif {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--bg2);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  padding: 1rem 1.5rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--accent);
+  box-shadow: 0 0 30px rgba(0,245,196,0.2);
+  z-index: 9998;
+  transform: translateX(calc(100% + 3rem));
+  transition: transform 0.4s cubic-bezier(.17,.67,.36,1.2);
+  max-width: 320px;
+}
+#notif.show { transform: translateX(0); }
+
+/* LOADING SCREEN */
+#loading {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  transition: opacity 0.5s;
+}
+#loading h2 {
+  font-family: 'Orbitron', monospace;
+  color: var(--accent);
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  letter-spacing: 4px;
+}
+.load-bar-wrap {
+  width: 300px;
+  height: 4px;
+  background: var(--dim);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.load-bar-inner {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  animation: loadanim 2.5s ease forwards;
+}
+@keyframes loadanim {
+  0%   { width: 0%; }
+  40%  { width: 70%; }
+  60%  { width: 71%; } /* stuck */
+  80%  { width: 72%; }
+  100% { width: 100%; }
+}
+.load-tip {
+  margin-top: 1.5rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text2);
+}
+
+/* account modal */
+#modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+}
+#modal-overlay.show { display: flex; }
+.modal {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2.5rem;
+  width: 420px;
+  position: relative;
+}
+.modal h3 {
+  font-family: 'Orbitron', monospace;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  letter-spacing: 2px;
+}
+.modal input[type=text],
+.modal input[type=password],
+.modal input[type=email] {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.85rem;
+  margin-bottom: 0.8rem;
+}
+.modal input:focus { outline: none; border-color: var(--accent); }
+.modal-close {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text2);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.modal-close:hover { color: var(--accent2); }
+
+/* sub-tabs */
+.sub-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+.sub-tab {
+  padding: 0.8rem 1.5rem;
+  cursor: pointer;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: var(--text2);
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+.sub-tab:hover { color: var(--text); }
+.sub-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+.sub-page { display: none; }
+.sub-page.active { display: block; }
+
+/* TICKER */
+#ticker {
+  background: var(--accent);
+  color: #000;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.ticker-inner {
+  display: inline-block;
+  animation: ticker 30s linear infinite;
+}
+@keyframes ticker {
+  0%   { transform: translateX(100vw); }
+  100% { transform: translateX(-100%); }
+}
+
+/* BUNDLE */
+.bundle-box {
+  background: linear-gradient(135deg, rgba(0,245,196,0.05), rgba(255,60,110,0.05));
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.bundle-box::before {
+  content: 'BEST VALUE';
+  position: absolute;
+  top: 16px; right: -28px;
+  background: var(--accent2);
+  color: #fff;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 40px;
+  transform: rotate(45deg);
+  letter-spacing: 1px;
+}
+
+</style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div id="loading">
+  <h2>NEXUS STORE</h2>
+  <div class="load-bar-wrap"><div class="load-bar-inner"></div></div>
+  <p class="load-tip" id="load-tip">Loading mandatory day-one patch data...</p>
+</div>
+
+<!-- TICKER -->
+<div id="ticker">
+  <span class="ticker-inner">
+    🔥 FLASH SALE: Up to 90% OFF — some restrictions apply &nbsp;|&nbsp;
+    ⚠️ Maintenance scheduled: FROM 5 PM TO 11 AM &nbsp;|&nbsp;
+    🎮 Snake 2077: GOTY Edition now with 47 DLCs &nbsp;|&nbsp;
+    💸 New microtransaction: Buy the ability to save your game for $4.99/month &nbsp;|&nbsp;
+    🔑 Lost your CD key? Buy it again! &nbsp;|&nbsp;
+    🤖 AI-Powered difficulty: the worse you play, the more it costs &nbsp;|&nbsp;
+    📧 Account verification email sent. Check spam. And your other spam. And if you don't see it try again or contact our support on wensdays from 14-16. &nbsp;|&nbsp;
+  </span>
+</div>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <div id="logo" onclick="goHome()">NEXUS</div>
+  <nav>
+    <div class="nav-tab active" onclick="showPage('store')">🏪 Store</div>
+    <div class="nav-tab" onclick="showPage('library')">📚 Library</div>
+    <div class="nav-tab" onclick="showPage('community')">💬 Community</div>
+    <div class="nav-tab" onclick="showPage('support')">🆘 Support</div>
+    <div class="nav-tab" onclick="showPage('news')">📰 News</div>
+  </nav>
+  <div class="topbar-right">
+    <div class="cart-badge" onclick="showCart()">🛒<span class="cart-count" id="cart-count">0</span></div>
+    <button class="btn-small btn-outline" onclick="showModal('login')">LOG IN</button>
+    <button class="btn-small btn-primary" onclick="showModal('register')">JOIN FREE</button>
+  </div>
+</div>
+
+<!-- NOTIFICATION -->
+<div id="notif"></div>
+
+<!-- ACCOUNT MODAL -->
+<div id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- ===================== STORE PAGE ===================== -->
+<div class="page active" id="page-store">
+
+  <div id="hero">
+    <div id="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div id="hero-content">
+      <h1>SNAKE <span>2077</span></h1>
+      <p>The definitive next-gen open-world tactical serpent simulation experience. Now with mandatory always-online DRM and 47 DLCs.</p>
+      <button class="btn-big" onclick="openGame()">VIEW GAME ▶</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Featured & Recommended</div>
+    <div class="game-grid">
+      <div class="game-card" onclick="openGame()">
+        <div class="card-img" style="background: linear-gradient(135deg,#0a1a12,#0d2a1e);">🐍</div>
+        <div class="card-body">
+          <div class="card-title">SNAKE 2077</div>
+          <div class="card-genre">Action / Simulation / Suffering</div>
+          <div class="card-price">
+            <span class="price-old">$79.99</span>
+            <span class="price-new">$59.99</span>
+            <span class="badge">-25%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-card locked">
+        <div class="card-img" style="background: linear-gradient(135deg,#1a0a0a,#2a0d0d);">🔫
+          <div class="lock-overlay">🔒</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">SHOOTER 2077</div>
+          <div class="card-genre">FPS / Coming Soon™</div>
+          <div class="card-price">
+            <span class="price-new">$89.99</span>
+            <span class="badge locked-badge">TBA 2031</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-card locked">
+        <div class="card-img" style="background: linear-gradient(135deg,#0a0a1a,#0d0d2a);">🚗
+          <div class="lock-overlay">🔒</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">RACER ULTRA</div>
+          <div class="card-genre">Racing / Microtransaction</div>
+          <div class="card-price">
+            <span class="price-old">$49.99</span>
+            <span class="price-new">$49.99</span>
+            <span class="badge locked-badge">NOT SALE</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-card locked">
+        <div class="card-img" style="background: linear-gradient(135deg,#1a1a0a,#2a2a0d);">⚔️
+          <div class="lock-overlay">🔒</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">LEGENDS OF PAYING</div>
+          <div class="card-genre">RPG / Pay-to-Win</div>
+          <div class="card-price">
+            <span class="price-new">FREE*</span>
+            <span class="badge" style="background:#555">*$199 DLC</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-card locked">
+        <div class="card-img" style="background: linear-gradient(135deg,#0d1a0a,#142a0d);">⚽
+          <div class="lock-overlay">🔒</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">SPORTSBALL 25</div>
+          <div class="card-genre">Sports / Annual Reskin</div>
+          <div class="card-price">
+            <span class="price-old">$69.99</span>
+            <span class="price-new">$69.99</span>
+            <span class="badge locked-badge">SAME GAME</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-card locked">
+        <div class="card-img" style="background: linear-gradient(135deg,#1a0a1a,#2a0d2a);">👻
+          <div class="lock-overlay">🔒</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">HORROR: SEASON PASS</div>
+          <div class="card-genre">Horror / Incomplete</div>
+          <div class="card-price">
+            <span class="price-old">$39.99</span>
+            <span class="price-new">$34.99</span>
+            <span class="badge">-13%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Special Offers</div>
+    <div class="bundle-box">
+      <h2 style="font-family:'Orbitron',monospace;color:#fff;font-size:1.3rem;margin-bottom:0.5rem;">NEXUS MEGA BUNDLE</h2>
+      <p style="color:var(--text2);margin-bottom:1rem;font-size:0.9rem;">All 6 games + 200 + DLCs + Season Pass + Soundtrack + Artbook + Digital Comic + Water from bath of the main character + Creator's soul</p>
+      <div style="font-family:'Orbitron',monospace;font-size:2.5rem;color:var(--accent3);margin-bottom:0.5rem;">$499.99</div>
+      <div style="color:var(--text2);font-size:0.85rem;margin-bottom:1.5rem;">Was $2,847.94 — You save $2,347.95!</div>
+      <button class="btn-big" onclick="notify('Bundle added to cart! Note: Snake 2077 sold separately.')">ADD TO CART</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Top Reviews</div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Took me 4 hours to install, 2 hours to verify, and 30 seconds to play before it crashed. 10/10."</div>
+        <div class="review-author">— xXGamer_Pro_2077Xx · 2 hrs on record</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★☆☆</div>
+        <div class="review-text">"The game is great when it works. It has not worked yet. Still waiting. Update: still waiting."</div>
+        <div class="review-author">— NotRefundable · 0 hrs on record</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"I purchased the Ultra Edition for $299. I received a snake. A literal snake. No regrets."</div>
+        <div class="review-author">— TrustMeBro99 · 847 hrs on record</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★☆☆☆☆</div>
+        <div class="review-text">"Game asked me to verify my identity using a fax machine. I do not own a fax machine."</div>
+        <div class="review-author">— JustANormalPerson · 1 hr on record</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== GAME PAGE ===================== -->
+<div class="page" id="page-game">
+  <div style="max-width:1400px;margin:0 auto;">
+    <div class="game-hero">
+      <div class="game-cover">🐍</div>
+      <div class="game-info">
+        <button class="btn-small btn-outline" onclick="showPage('store')" style="margin-bottom:1rem;">← Back to Store</button>
+        <div class="game-title">SNAKE 2077</div>
+        <div class="game-meta">
+          <span class="meta-tag">Action</span>
+          <span class="meta-tag">Open World</span>
+          <span class="meta-tag">Simulation</span>
+          <span class="meta-tag">Psychological Horror</span>
+          <span class="meta-tag">Early Access (Since 2019)</span>
+          <span class="meta-tag">Immersive</span>
+          <span class="meta-tag">Next-Gen</span>
+        </div>
+        <div class="game-desc">
+          Experience the ultimate next-generation serpent simulation. Navigate a brutally realistic open world as a snake,
+          collecting nutrients while evading existential dread. Features industry-leading RTX technology, 
+          AI-powered NPC behavior, and a fully destructible economy. <strong style="color:var(--accent2)">Note: base game does not include snake movement. Purchase Movement DLC ($19.99).</strong>
+        </div>
+        <div class="game-price-box">
+          <span class="old-price">$79.99</span>
+          <span class="big-price">$59.99</span>
+          <button class="btn-big" onclick="startBuyFlow()">BUY NOW</button>
+          <button class="btn-big" style="background:var(--dim);color:var(--text);" onclick="addToCart()">ADD TO CART</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub-tabs -->
+    <div class="section">
+      <div class="sub-tabs">
+        <div class="sub-tab active" onclick="showSubTab('overview')">Overview</div>
+        <div class="sub-tab" onclick="showSubTab('dlc')">DLC (47)</div>
+        <div class="sub-tab" onclick="showSubTab('sysreq')">System Requirements</div>
+        <div class="sub-tab" onclick="showSubTab('reviews-tab')">Reviews (14,822)</div>
+      </div>
+
+      <div class="sub-page active" id="sub-overview">
+        <h3 style="font-family:'Orbitron',monospace;color:#fff;margin-bottom:1rem;">About This Game</h3>
+        <p style="color:var(--text);line-height:1.8;margin-bottom:1rem;">
+          Snake 2077 redefines what it means to be a snake in the modern gaming landscape. With over 200 hours of content, 
+		  an always-online world that remembers every choice you make,
+          and a dynamic weather system that affects nothing, this is the snake game you never knew you needed.
+        </p>
+        <p style="color:var(--text);line-height:1.8;margin-bottom:1rem;">
+          <strong style="color:var(--accent)">Key Features:</strong><br>
+          • 8K textures (sold separately)<br>
+          • Real-time ray tracing (RTX 4090 required)<br>
+          • Dynamic AI that adapts to your playstyle (by making it harder)<br>
+          • 47 DLCs including "The ability to pause" ($2.99/month)<br>
+          • Mandatory 3-hour tutorial that cannot be skipped<br>
+          • Cloud saves (limited to 1 save slot, additional slots $0.99 each)
+        </p>
+        <p style="color:var(--accent2);font-size:0.85rem;">
+          ⚠️ Online connection required at all times. Singlemode gameplay is considered a bug and will be patched.
+        </p>
+      </div>
+
+      <div class="sub-page" id="sub-dlc">
+        <div class="dlc-grid">
+          <div class="dlc-card"><div class="dlc-icon">🎨</div><div class="dlc-name">8K TEXTURE PACK</div><div class="dlc-desc">Required for the game to look like the screenshots.</div><div class="dlc-price">$29.99</div></div>
+          <div class="dlc-card"><div class="dlc-icon">🎵</div><div class="dlc-name">ACCORDION SOUNDTRACK</div><div class="dlc-desc">The complete OST. Featuring 47 minutes of accordion.</div><div class="dlc-price">$9.99</div></div>
+          <div class="dlc-card"><div class="dlc-icon">💾</div><div class="dlc-name">SAVE GAME DLC</div><div class="dlc-desc">Unlocks the ability to save your progress.</div><div class="dlc-price">$4.99/mo</div></div>
+          <div class="dlc-card"><div class="dlc-icon">⏸️</div><div class="dlc-name">PAUSE BUTTON</div><div class="dlc-desc">Allows you to pause the game. Online only.</div><div class="dlc-price">$2.99/mo</div></div>
+          <div class="dlc-card"><div class="dlc-icon">🐍</div><div class="dlc-name">MOVEMENT DLC</div><div class="dlc-desc">Enables snake movement. Required to play.</div><div class="dlc-price">$19.99</div></div>
+          <div class="dlc-card"><div class="dlc-icon">🍎</div><div class="dlc-name">FOOD PACK VOL.1</div><div class="dlc-desc">Adds apples to the game. Vol. 2-47 sold separately.</div><div class="dlc-price">$3.99</div></div>
+          <div class="dlc-card"><div class="dlc-icon">🗺️</div><div class="dlc-name">MINIMAP DLC</div><div class="dlc-desc">Adds a minimap. The map shows only your location.</div><div class="dlc-price">$7.99</div></div>
+          <div class="dlc-card"><div class="dlc-icon">📸</div><div class="dlc-name">PHOTO MODE</div><div class="dlc-desc">Take screenshots. Watermarked unless you pay extra.</div><div class="dlc-price">$5.99</div></div>
+        </div>
+      </div>
+
+      <div class="sub-page" id="sub-sysreq">
+        <table class="req-table">
+          <tr><th></th><th>MINIMUM</th><th>RECOMMENDED</th><th>ULTRA™</th></tr>
+          <tr><td>OS</td><td>Windows 11</td><td>Windows 11 PRO</td><td>Windows 12</td></tr>
+          <tr><td>CPU</td><td>8-Core 4.5GHz+</td><td>16-Core 5.0GHz+</td><td>Quantum processor</td></tr>
+          <tr><td>RAM</td><td>32 GB</td><td>64 GB</td><td>128 GB DDR6</td></tr>
+          <tr><td>GPU</td><td>RTX 3080</td><td>RTX 4090</td><td>RTX BLACKWELL</td></tr>
+          <tr><td>Storage</td><td>120 GB SSD</td><td>120 GB NVMe SSD</td><td>120 GB + 80 GB for patches</td></tr>
+          <tr><td>Internet</td><td>Always-on 100Mbps</td><td>Always-on 1Gbps</td><td>Fiber + backup fiber</td></tr>
+          <tr><td>Account</td><td>Nexus Account</td><td>Nexus Premium</td><td>Nexus Ultra Supreme</td></tr>
+        </table>
+      </div>
+
+      <div class="sub-page" id="sub-reviews-tab">
+        <div class="reviews-grid">
+          <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"Five stars for the loading screen. It's beautiful."</div><div class="review-author">— LoadingScreenFan · 400 hrs on record</div></div>
+          <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"Uninstalled immediately. Will reinstall for the 12th time tomorrow."</div><div class="review-author">— Addicted2Pain · 1,200 hrs on record</div></div>
+          <div class="review-card"><div class="review-stars">★★☆☆☆</div><div class="review-text">"Support told me my issue would be addressed in patch 47.2. I am on patch 12."</div><div class="review-author">— StillWaiting · 23 hrs on record</div></div>
+          <div class="review-card"><div class="review-stars">★★★★★</div><div class="review-text">"I don't understand the game but my GPU sounds like a jet engine so I feel powerful."</div><div class="review-author">— JetEngine_PC · 88 hrs on record</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== BUY FLOW ===================== -->
+<div class="page" id="page-buyflow">
+  <div id="buy-flow">
+    <div style="margin-bottom:2rem;">
+      <button class="btn-small btn-outline" onclick="showPage('game')">← Back to Game</button>
+    </div>
+
+    <!-- STEP 1: Account required -->
+    <div class="flow-step active" id="step-1">
+      <div class="step-title"><div class="step-num">1</div> ACCOUNT VERIFICATION REQUIRED</div>
+      <p style="color:var(--text2);margin-bottom:1rem;">To purchase Snake 2077, you need a Nexus Account. Already have one? Great. Log in below. Forgot your password? Too bad.</p>
+      <button class="btn-flow" onclick="nextStep(2)">I HAVE AN ACCOUNT →</button>
+      <button class="btn-flow grey" style="margin-left:1rem;" onclick="showModal('register')">CREATE ACCOUNT (FREE*)</button>
+      <p style="color:var(--text2);font-size:0.75rem;margin-top:0.5rem;">*Free account requires credit card for age verification.</p>
+    </div>
+
+    <!-- STEP 2: ToS -->
+    <div class="flow-step" id="step-2">
+      <div class="step-title"><div class="step-num">2</div> TERMS OF SERVICE</div>
+      <p style="color:var(--text2);margin-bottom:0.5rem;">Please read the entire Terms of Service before proceeding.</p>
+      <div class="tos-box" id="tos-box">
+        <strong>NEXUS STORE TERMS OF SERVICE — VERSION 847.2</strong><br><br>
+        By purchasing Snake 2077, you agree to: (1) allow Nexus Corp to monitor your gameplay 24/7 for "quality assurance"; (2) not hold Nexus Corp responsible for any damage to your PC, GPU, CPU, RAM, SSD, marriage, or sanity; (3) accept that all purchases are final, non-refundable, and may be revoked at any time without notice; (4) acknowledge that DLC marked as "required" is indeed required and not included in the base price; (5) allow Nexus Corp to share your data with "partners" (defined as anyone who pays us); (6) accept that the game may be updated to remove features you paid for; (7) acknowledge that "Early Access" means the game may never be finished; (8) agree that any bugs are "features" and any features may become bugs in future patches; (9) allow Nexus Corp to add additional microtransactions at any time; (10) accept that server downtime is "maintenance" and you are not entitled to compensation; (11) acknowledge that your account may be banned for reasons including but not limited to: winning too much, losing too much, or existing during a server error; (12) agree that Nexus Corp's AI has the right to make purchases on your behalf if it determines you would "probably want them"; (13) accept that this ToS may be changed at any time, and your continued existence constitutes acceptance; (14) acknowledge that Snake 2077 is a spiritual experience and Nexus Corp is not responsible for existential crises; (15) agree to tell three friends about Nexus Store or face account suspension...
+        <br><br>
+        [Section 2 of 847]<br>
+        Continued: Furthermore you agree that... (please scroll to the very bottom to enable the accept button)
+        <br><br><br><br><br><br>
+        [You have reached the bottom. The accept button is now enabled. Probably.]
+      </div>
+      <div style="display:flex;align-items:center;gap:0.8rem;margin:0.8rem 0;">
+        <input type="checkbox" id="tos-check" style="width:18px;height:18px;cursor:pointer;" onchange="checkTos()">
+        <label for="tos-check" style="cursor:pointer;color:var(--text);">I have read and understood all 847 sections of the Terms of Service</label>
+      </div>
+      <button class="btn-flow" id="tos-btn" disabled style="opacity:0.4;cursor:not-allowed;" onclick="nextStep(3)">ACCEPT & CONTINUE →</button>
+    </div>
+
+    <!-- STEP 3: 2FA -->
+    <div class="flow-step" id="step-3">
+      <div class="step-title"><div class="step-num">3</div> DOUBLE AUTHENTICATION</div>
+      <p style="color:var(--text2);margin-bottom:0.5rem;">For your security, we've sent a 6-digit code to your email address ending in ***@***.***</p>
+      <p style="color:var(--accent2);font-size:0.82rem;margin-bottom:1rem;">⚠️ Code expires in <span id="code-timer">180</span> seconds. Code is case sensitive. Do not share with anyone including yourself.</p>
+      <div class="code-inputs">
+        <input type="text" maxlength="1" class="code-input" oninput="codeInput(this)">
+        <input type="text" maxlength="1" class="code-input" oninput="codeInput(this)">
+        <input type="text" maxlength="1" class="code-input" oninput="codeInput(this)">
+        <input type="text" maxlength="1" class="code-input" oninput="codeInput(this)">
+        <input type="text" maxlength="1" class="code-input" oninput="codeInput(this)">
+        <input type="text" maxlength="1" class="code-input" oninput="codeInput(this)">
+      </div>
+      <button class="btn-flow" onclick="verifyCode()">VERIFY CODE →</button>
+      <button class="btn-flow grey" style="margin-left:0.5rem;" onclick="resendCode()">Resend code</button>
+    </div>
+
+    <!-- STEP 4: CAPTCHA -->
+    <div class="flow-step" id="step-4">
+      <div class="step-title"><div class="step-num">4</div> HUMANITY VERIFICATION</div>
+      <p style="color:var(--text2);margin-bottom:1rem;">Please confirm you are human. This should be easy. Unless you are not human.</p>
+      <div class="captcha-box" id="captcha-box">
+        <input type="checkbox" id="captcha-cb" onchange="captchaCheck()">
+        <label for="captcha-cb" style="cursor:pointer;">I am not a robot</label>
+        <span id="captcha-result" style="margin-left:auto;font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--text2);">Pending...</span>
+      </div>
+      <p id="captcha-msg" style="font-size:0.8rem;color:var(--accent2);margin-top:0.8rem;"></p>
+    </div>
+
+    <!-- STEP 5: Catch button -->
+    <div class="flow-step" id="step-5">
+      <div class="step-title"><div class="step-num">5</div> CONFIRM PURCHASE</div>
+      <p style="color:var(--text2);margin-bottom:0.5rem;">Click the button below to confirm your purchase of Snake 2077 for <strong style="color:var(--accent3)">$59.99</strong>.</p>
+      <p style="color:var(--accent2);font-size:0.82rem;margin-bottom:1rem;">⚡ HURRY! This price expires in <span id="buy-timer">299</span>s. Also we lied, the price doesn't change.</p>
+      <div id="catch-area">
+        <button id="catch-btn" onmouseenter="runAway()" onclick="caughtIt()">CONFIRM PURCHASE $59.99</button>
+      </div>
+      <p style="color:var(--text2);font-size:0.78rem;margin-top:0.5rem;" id="catch-msg"></p>
+    </div>
+
+    <!-- STEP 6: Patches -->
+    <div class="flow-step" id="step-6">
+      <div class="step-title"><div class="step-num">6</div> INSTALLING MANDATORY PATCHES</div>
+      <p style="color:var(--text2);margin-bottom:1rem;">Before downloading the game, please install these required day-one patches.</p>
+      <div class="patch-list" id="patch-list"></div>
+      <p id="patch-msg" style="font-size:0.82rem;color:var(--text2);margin-top:1rem;"></p>
+    </div>
+
+    <!-- STEP 7: Download -->
+    <div class="flow-step" id="step-7">
+      <div class="step-title"><div class="step-num">7</div> DOWNLOADING INSTALLER</div>
+      <p style="color:var(--text2);margin-bottom:1rem;">Snake 2077 Installer is being prepared. Please wait.</p>
+      <div class="dl-bar-wrap">
+        <div class="dl-bar" id="dl-bar"></div>
+        <div class="dl-bar-text" id="dl-bar-text">0%</div>
+      </div>
+      <p id="dl-status" style="font-family:'Share Tech Mono',monospace;font-size:0.78rem;color:var(--text2);margin-top:0.5rem;"></p>
+      <div id="dl-done" style="display:none;margin-top:1.5rem;">
+        <p style="color:var(--accent);font-family:'Orbitron',monospace;margin-bottom:1rem;">✓ INSTALLER READY</p>
+        <a href="Snake2077.zip" download>
+          <button class="btn-flow">⬇ DOWNLOAD Snake2077_Installer.py</button>
+        </a>
+        <p style="color:var(--text2);font-size:0.75rem;margin-top:0.8rem;">
+          Note: This is a Python script. Run with: <code style="color:var(--accent);font-family:'Share Tech Mono',monospace;">python Snake2077_Installer.py</code><br>
+          Requires: Python 3.x, psutil (<code style="color:var(--accent);">pip install psutil</code>)
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== LIBRARY ===================== -->
+<div class="page" id="page-library">
+  <div class="section">
+    <div class="section-title">Your Library</div>
+    <div style="text-align:center;padding:4rem;color:var(--text2);">
+      <div style="font-size:4rem;margin-bottom:1rem;">📭</div>
+      <p style="font-family:'Orbitron',monospace;margin-bottom:0.5rem;">YOUR LIBRARY IS EMPTY</p>
+      <p>You haven't purchased any games yet.</p>
+      <p style="font-size:0.85rem;margin-top:0.5rem;">Games you've refunded also appear here. Locked. As a reminder.</p>
+      <button class="btn-big" onclick="showPage('store')" style="margin-top:1.5rem;">GO TO STORE</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== COMMUNITY ===================== -->
+<div class="page" id="page-community">
+  <div class="section">
+    <div class="section-title">Community Hub</div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:2rem;margin-bottom:1.5rem;">
+      <h3 style="font-family:'Orbitron',monospace;color:var(--accent);margin-bottom:1rem;">TRENDING DISCUSSIONS</h3>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div style="border-bottom:1px solid var(--border);padding-bottom:1rem;">
+          <div style="color:#fff;margin-bottom:0.3rem;">[MEGATHREAD] The game worked for 2 seconds — share your experience</div>
+          <div style="font-size:0.8rem;color:var(--text2);">14,882 replies · Last post: 3 minutes ago</div>
+        </div>
+        <div style="border-bottom:1px solid var(--border);padding-bottom:1rem;">
+          <div style="color:#fff;margin-bottom:0.3rem;">PSA: The "free" DLC requires the $299.99 Platinum Edition to unlock</div>
+          <div style="font-size:0.8rem;color:var(--text2);">7,441 replies · Pinned by moderator</div>
+        </div>
+        <div style="border-bottom:1px solid var(--border);padding-bottom:1rem;">
+          <div style="color:#fff;margin-bottom:0.3rem;">How to make the game run at 5 FPS instead of 4 FPS [GUIDE]</div>
+          <div style="font-size:0.8rem;color:var(--text2);">2,103 replies · ⭐ Community Award</div>
+        </div>
+        <div style="border-bottom:1px solid var(--border);padding-bottom:1rem;">
+          <div style="color:#fff;margin-bottom:0.3rem;">Bug Report: Snake goes wrong direction [CLOSED - working as intended]</div>
+          <div style="font-size:0.8rem;color:var(--text2);">892 replies · Status: Won't Fix</div>
+        </div>
+        <div>
+          <div style="color:#fff;margin-bottom:0.3rem;">The snake is actually beautiful and I love it — an appreciation post</div>
+          <div style="font-size:0.8rem;color:var(--text2);">3 replies · 1 upvote (from the developer)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SUPPORT ===================== -->
+<div class="page" id="page-support">
+  <div class="section">
+    <div class="section-title">Support Center</div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:2rem;max-width:700px;">
+      <h3 style="font-family:'Orbitron',monospace;color:#fff;margin-bottom:1.5rem;">How can we not help you today?</h3>
+      <div style="display:flex;flex-direction:column;gap:0.8rem;margin-bottom:2rem;">
+        <div style="padding:1rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;cursor:pointer;" onclick="notify('Support ticket submitted. Estimated response time: 6-8 business decades.')">🎮 Game not launching</div>
+        <div style="padding:1rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;cursor:pointer;" onclick="notify('Refunds are not available. Thank you for your understanding.')">💸 Request a refund</div>
+        <div style="padding:1rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;cursor:pointer;" onclick="notify('Account recovery sent to the email you used to recover last time.')">🔑 Account recovery</div>
+        <div style="padding:1rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;cursor:pointer;" onclick="notify('Our billing team will review your case in 8-12 weeks.')">💳 Billing issues</div>
+        <div style="padding:1rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;cursor:pointer;" onclick="notify('Have you tried turning it off and buying a new one?')">🐛 Report a bug</div>
+      </div>
+      <div style="background:var(--dim);border-radius:6px;padding:1rem;text-align:center;">
+        <p style="color:var(--text2);font-size:0.85rem;">Live Chat: <strong style="color:var(--accent2)">OFFLINE</strong> (Available Mon-Fri, 11:37am-11:42am CET)</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== NEWS ===================== -->
+<div class="page" id="page-news">
+  <div class="section">
+    <div class="section-title">Latest News</div>
+    <div style="display:flex;flex-direction:column;gap:1.5rem;">
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:var(--text2);margin-bottom:0.5rem;">2024-04-01 · ANNOUNCEMENT</div>
+        <h3 style="color:#fff;margin-bottom:0.5rem;">Snake 2077 — Patch 13.0 "The Fix" is now live</h3>
+        <p style="color:var(--text);font-size:0.9rem;line-height:1.7;">We've addressed the bug where the snake moved correctly. This has been fixed. Additionally, we've added 3 new microtransaction tiers and removed the ability to close the game without purchasing the Exit Button DLC ($1.99).</p>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:var(--text2);margin-bottom:0.5rem;">2024-03-15 · NOTICE</div>
+        <h3 style="color:#fff;margin-bottom:0.5rem;">Scheduled Maintenance — Every Weekend, Forever</h3>
+        <p style="color:var(--text);font-size:0.9rem;line-height:1.7;">We will be performing maintenance every Saturday and Sunday from 8am to 11pm. We apologize for the inconvenience. We do not apologize enough to stop doing it.</p>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:var(--text2);margin-bottom:0.5rem;">2024-02-29 · DLC</div>
+        <h3 style="color:#fff;margin-bottom:0.5rem;">New DLC: "The Snake Is Now Slightly Different Color" — $7.99</h3>
+        <p style="color:var(--text);font-size:0.9rem;line-height:1.7;">After 8 months of development, our dedicated team of 0.3 artists has delivered the definitive snake color experience. The snake is now a slightly different shade of green. This is the content you deserve.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  NEXUS STORE © 2077 Nexus Corp. All rights reserved. All your money belong to us.<br>
+  Snake 2077™ is a registered trademark of a company we bought and then dissolved.<br>
+  By visiting this website you agree to our Privacy Policy, Cookie Policy, Snake Policy, and Existence Policy.<br>
+  Nexus Store is not responsible for: data loss, GPU death, existential crises, or snake-related injuries.<br>
+  <span style="color:var(--accent2);">★ Rated M for Microtransactions ★</span>
+</footer>
+
+<script>
+
+// ===== LOADING =====
+const tips = [
+  "Loading mandatory day-one patch data...",
+  "Verifying your humanity...",
+  "Checking DLC ownership...",
+  "Initializing always-online requirements...",
+  "Preparing unskippable tutorial data...",
+  "Almost done... (probably)",
+];
+let tipI = 0;
+const tipEl = document.getElementById('load-tip');
+const tipInv = setInterval(()=>{
+  tipI = (tipI+1) % tips.length;
+  tipEl.textContent = tips[tipI];
+}, 500);
+
+setTimeout(()=>{
+  clearInterval(tipInv);
+  const l = document.getElementById('loading');
+  l.style.opacity = '0';
+  setTimeout(()=>{ l.style.display='none'; }, 500);
+}, 2800);
+
+// ===== NAVIGATION =====
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+
+  const page = document.getElementById('page-'+name);
+  if (page) page.classList.add('active');
+
+  const tabs = {
+    store:'Store', library:'Library', community:'Community',
+    support:'Support', news:'News', game:'Store', buyflow:'Store'
+  };
+  document.querySelectorAll('.nav-tab').forEach(t=>{
+    if(t.textContent.includes(tabs[name]||'')) t.classList.add('active');
+  });
+}
+
+function openGame() { showPage('game'); }
+function goHome()    { showPage('store'); }
+
+// ===== SUB TABS =====
+function showSubTab(name) {
+  document.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.sub-page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('sub-'+name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ===== CART =====
+let cartCount = 0;
+function addToCart() {
+  cartCount++;
+  document.getElementById('cart-count').textContent = cartCount;
+  notify('Snake 2077 added to cart! Note: DLCs not included.');
+}
+function showCart() {
+  notify('Your cart: Snake 2077 ($59.99) + 47 recommended DLCs ($847.43). Checkout coming soon™');
+}
+
+// ===== NOTIFICATION =====
+let notifTimeout;
+function notify(msg) {
+  const n = document.getElementById('notif');
+  n.textContent = msg;
+  n.classList.add('show');
+  clearTimeout(notifTimeout);
+  notifTimeout = setTimeout(()=>n.classList.remove('show'), 4000);
+}
+
+// ===== MODAL =====
+function showModal(type) {
+  const mc = document.getElementById('modal-content');
+  if(type === 'login') {
+    mc.innerHTML = `
+      <h3>SIGN IN</h3>
+      <input type="email" placeholder="Email">
+      <input type="password" placeholder="Password">
+      <p style="font-size:0.78rem;color:var(--text2);margin-bottom:0.8rem;">Forgot password? <a href="#" onclick="notify('Password reset sent. Check your 47 spam folders.');return false;" style="color:var(--accent);">Reset it</a> (not really)</p>
+      <button class="btn-flow" onclick="closeModal();notify('Login failed: Suspicious activity detected. Account locked for 24h.')">SIGN IN</button>
+    `;
+  } else {
+    mc.innerHTML = `
+      <h3>CREATE ACCOUNT</h3>
+      <input type="text" placeholder="Username">
+      <input type="email" placeholder="Email">
+      <input type="password" placeholder="Password (min 32 chars, 3 symbols, 1 emoji)">
+      <input type="password" placeholder="Repeat password">
+      <p style="font-size:0.75rem;color:var(--text2);margin-bottom:0.8rem;">By registering you agree to our <a href="#" style="color:var(--accent);">847-section ToS</a></p>
+      <button class="btn-flow" onclick="closeModal();notify('Account created! Verification email sent. Note: our email domain is flagged as spam.')">CREATE ACCOUNT</button>
+    `;
+  }
+  document.getElementById('modal-overlay').classList.add('show');
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('show');
+}
+
+// ===== BUY FLOW =====
+function startBuyFlow() {
+  showPage('buyflow');
+  // reset all steps
+  document.querySelectorAll('.flow-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step-1').classList.add('active');
+  startBuyTimer();
+}
+
+function nextStep(n) {
+  document.querySelectorAll('.flow-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step-'+n).classList.add('active');
+  if(n===3) startCodeTimer();
+  if(n===6) startPatches();
+  if(n===7) startDownload();
+}
+
+// STEP 2 — ToS
+function checkTos() {
+  const cb  = document.getElementById('tos-check');
+  const btn = document.getElementById('tos-btn');
+  const box = document.getElementById('tos-box');
+  // must scroll to bottom
+  const scrolled = box.scrollHeight - box.scrollTop - box.clientHeight < 50;
+  if(cb.checked && !scrolled) {
+    cb.checked = false;
+    notify('Please scroll to the bottom of the Terms of Service first.');
+    return;
+  }
+  if(cb.checked) {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+  } else {
+    btn.disabled = true;
+    btn.style.opacity = '0.4';
+    btn.style.cursor = 'not-allowed';
+  }
+}
+
+// STEP 3 — 2FA
+let codeTimerInv;
+function startCodeTimer() {
+  let t = 180;
+  const el = document.getElementById('code-timer');
+  clearInterval(codeTimerInv);
+  codeTimerInv = setInterval(()=>{
+    t--;
+    el.textContent = t;
+    if(t<=0) {
+      clearInterval(codeTimerInv);
+      el.textContent = '0';
+      el.style.color = 'var(--accent2)';
+    }
+  },1000);
+}
+
+function codeInput(el) {
+  if(el.value.length === 1) {
+    const inputs = document.querySelectorAll('.code-input');
+    const idx = Array.from(inputs).indexOf(el);
+    if(idx < inputs.length-1) inputs[idx+1].focus();
+  }
+}
+
+let codeAttempts = 0;
+function verifyCode() {
+  codeAttempts++;
+  const inputs = document.querySelectorAll('.code-input');
+  const code   = Array.from(inputs).map(i=>i.value).join('');
+  if(codeAttempts < 3) {
+    inputs.forEach(i=>{ i.value=''; i.style.borderColor='var(--accent2)'; });
+    inputs[0].focus();
+    notify(`Incorrect code. ${3-codeAttempts} attempts remaining. Code has been resent.`);
+    startCodeTimer();
+  } else {
+    inputs.forEach(i=>i.style.borderColor='var(--accent)');
+    clearInterval(codeTimerInv);
+    setTimeout(()=>nextStep(4), 600);
+  }
+}
+
+function resendCode() {
+  notify('New code sent. Note: it is the same code. The old one was also correct.');
+  startCodeTimer();
+}
+
+// STEP 4 — CAPTCHA
+let captchaAttempts = 0;
+function captchaCheck() {
+  const cb  = document.getElementById('captcha-cb');
+  const res = document.getElementById('captcha-result');
+  const msg = document.getElementById('captcha-msg');
+  captchaAttempts++;
+
+  res.textContent = 'Verifying...';
+  setTimeout(()=>{
+    if(captchaAttempts < 4) {
+      cb.checked = false;
+      res.textContent = 'Failed';
+      res.style.color = 'var(--accent2)';
+      const msgs = [
+        'Verification failed: Mouse movement too human-like.',
+        'Verification failed: Click timing statistically suspicious.',
+        'Verification failed: Your IP address has been marked as "suspiciously human".',
+        'Verification failed: Please try again. And again. And again.',
+      ];
+      msg.textContent = msgs[Math.min(captchaAttempts-1, msgs.length-1)];
+    } else {
+      res.textContent = '✓ Verified';
+      res.style.color = 'var(--accent)';
+      msg.textContent = 'Congratulations. You are probably human.';
+      msg.style.color = 'var(--accent)';
+      setTimeout(()=>nextStep(5), 1000);
+    }
+  }, 1200);
+}
+
+// STEP 5 — running button
+let catchMisses = 0;
+function runAway() {
+  catchMisses++;
+  const area = document.getElementById('catch-area');
+  const btn  = document.getElementById('catch-btn');
+  const msg  = document.getElementById('catch-msg');
+  const rect = area.getBoundingClientRect();
+  const bw   = btn.offsetWidth;
+  const bh   = btn.offsetHeight;
+  const x    = Math.random() * (rect.width  - bw);
+  const y    = Math.random() * (rect.height - bh);
+  btn.style.left = x + 'px';
+  btn.style.top  = y + 'px';
+  btn.style.transform = 'none';
+  if(catchMisses > 5) msg.textContent = `Misses: ${catchMisses}. The button is getting faster. This is normal.`;
+}
+
+function caughtIt() {
+  document.getElementById('catch-msg').textContent = '✓ Purchase confirmed!';
+  document.getElementById('catch-btn').disabled = true;
+  setTimeout(()=>nextStep(6), 800);
+}
+
+// STEP 5 countdown
+let buyTimerInv;
+function startBuyTimer() {
+  let t = 299;
+  const el = document.getElementById('buy-timer');
+  clearInterval(buyTimerInv);
+  buyTimerInv = setInterval(()=>{
+    t--;
+    if(el) el.textContent = t;
+    if(t<=0) {
+      clearInterval(buyTimerInv);
+      t = 299;
+      if(el) el.textContent = t; // resets lol
+    }
+  },1000);
+}
+
+// STEP 6 — patches
+const PATCHES = [
+  { name:'Day-One Patch v1.0.1',    size:'4.7 GB' },
+  { name:'Day-One Patch v1.0.2',    size:'2.1 GB' },
+  { name:'Pre-release Hotfix',       size:'8.3 GB' },
+  { name:'Anti-Cheat Update',        size:'1.2 GB' },
+  { name:'Compatibility Layer',      size:'3.8 GB' },
+  { name:'Required DLC Framework',   size:'6.6 GB' },
+];
+
+function startPatches() {
+  const list = document.getElementById('patch-list');
+  list.innerHTML = '';
+  PATCHES.forEach((p,i)=>{
+    list.innerHTML += `
+      <div class="patch-item">
+        <div class="patch-name">${p.name}</div>
+        <div class="patch-bar-wrap"><div class="patch-bar" id="pbar-${i}"></div></div>
+        <div class="patch-status" id="pstat-${i}" style="color:var(--text2);">Queued</div>
+      </div>`;
+  });
+  runPatch(0);
+}
+
+function runPatch(i) {
+  if(i >= PATCHES.length) {
+    document.getElementById('patch-msg').textContent = '✓ All patches installed. A new patch is available.';
+    document.getElementById('patch-msg').style.color = 'var(--accent)';
+    // last patch fails, starts over once
+    setTimeout(()=>{
+      if(i === PATCHES.length) {
+        document.getElementById('patch-msg').textContent = '⚠ Patch 3 failed. Restarting patch process.';
+        document.getElementById('patch-msg').style.color = 'var(--accent2)';
+        for(let j=0;j<PATCHES.length;j++){
+          const b=document.getElementById('pbar-'+j);
+          const s=document.getElementById('pstat-'+j);
+          if(b){b.style.width='0%';}
+          if(s){s.textContent='Queued';s.style.color='var(--text2)';}
+        }
+        setTimeout(()=>runPatchFast(0), 800);
+      }
+    },800);
+    return;
+  }
+  const bar  = document.getElementById('pbar-'+i);
+  const stat = document.getElementById('pstat-'+i);
+  stat.textContent = 'Installing';
+  stat.style.color = 'var(--accent3)';
+  let pct = 0;
+  const iv = setInterval(()=>{
+    pct += Math.random()*12 + 3;
+    bar.style.width = Math.min(pct,100)+'%';
+    if(pct >= 100) {
+      clearInterval(iv);
+      bar.style.width = '100%';
+      stat.textContent = '✓ Done';
+      stat.style.color = 'var(--accent)';
+      setTimeout(()=>runPatch(i+1), 300);
+    }
+  }, 120);
+}
+
+function runPatchFast(i) {
+  if(i >= PATCHES.length) { setTimeout(()=>nextStep(7),500); return; }
+  const bar  = document.getElementById('pbar-'+i);
+  const stat = document.getElementById('pstat-'+i);
+  stat.textContent = 'Installing';
+  stat.style.color = 'var(--accent3)';
+  let pct = 0;
+  const iv = setInterval(()=>{
+    pct += Math.random()*25 + 10;
+    bar.style.width = Math.min(pct,100)+'%';
+    if(pct >= 100) {
+      clearInterval(iv);
+      bar.style.width = '100%';
+      stat.textContent = '✓ Done';
+      stat.style.color = 'var(--accent)';
+      setTimeout(()=>runPatchFast(i+1), 150);
+    }
+  }, 60);
+}
+
+// STEP 7 — download
+function startDownload() {
+  const bar    = document.getElementById('dl-bar');
+  const barTxt = document.getElementById('dl-bar-text');
+  const status = document.getElementById('dl-status');
+  let pct = 0;
+  const statuses = [
+    'Connecting to download server...',
+    'Server busy. Retrying...',
+    'Connected! Authenticating...',
+    'Downloading installer package...',
+    'Verifying integrity...',
+    'Almost done...',
+  ];
+  let si = 0;
+  const iv = setInterval(()=>{
+    pct += Math.random()*3 + 0.5;
+    if(pct > 97 && pct < 99) pct = 97; // stuck at 97% :)
+    if(pct >= 99.5) pct = 100;
+    bar.style.width = Math.min(pct,100)+'%';
+    barTxt.textContent = Math.min(Math.floor(pct),100)+'%';
+    si = Math.min(Math.floor(pct/20), statuses.length-1);
+    status.textContent = statuses[si];
+    if(pct >= 100) {
+      clearInterval(iv);
+      barTxt.textContent = '100%';
+      status.textContent = '✓ Download complete!';
+      document.getElementById('dl-done').style.display = 'block';
+    }
+  }, 150);
+}
+
+</script>
+</body>
+</html>
